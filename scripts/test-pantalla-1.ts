@@ -30,7 +30,7 @@ const ZONAS = {
 };
 
 // MODO AUDITORÍA: Listar TODO sin filtrar
-const MODO_AUDITORIA = true;  // Necesario para incluir buildings en la query
+const MODO_AUDITORIA = false;  // Necesario para incluir buildings en la query
 const INCLUIR_EDIFICIOS_SIN_NOMBRE = true;  // Para calcular índice residencial
 
 // Venues Ancla (alto impacto aunque estén lejos)
@@ -46,7 +46,7 @@ const VENUES_ANCLA = [
   'amenity=exhibition_center'    // Recintos feriales
 ];
 
-// Categorías de venues (basadas en auditoría real)
+// Categorías de venues (basadas en auditoría real y taxonomía Mapbox/OSM)
 const CATEGORIAS_MAPBOX = {
   // GASTRONOMÍA
   'amenity=restaurant': 'gastronomia',
@@ -54,69 +54,156 @@ const CATEGORIAS_MAPBOX = {
   'amenity=bar': 'gastronomia',
   'amenity=pub': 'gastronomia',
   'amenity=fast_food': 'gastronomia',
+  'amenity=food_court': 'gastronomia',
+  'amenity=biergarten': 'gastronomia',
+  'amenity=ice_cream': 'gastronomia',
   'shop=bakery': 'gastronomia',
   'shop=pastry': 'gastronomia',
+  'shop=wine': 'gastronomia',
+  'shop=beverages': 'gastronomia',
+  'shop=alcohol': 'gastronomia',
 
   // SUPERMERCADOS/TIENDAS
   'shop=supermarket': 'supermercados_tiendas',
-  'shop=mall': 'supermercados_tiendas',            // ⚠️ ANCLA: Centro comercial
+  'shop=mall': 'supermercados_tiendas',
   'shop=department_store': 'supermercados_tiendas',
   'shop=clothes': 'supermercados_tiendas',
+  'shop=shoes': 'supermercados_tiendas',
+  'shop=bags': 'supermercados_tiendas',
+  'shop=jewelry': 'supermercados_tiendas',
+  'shop=boutique': 'supermercados_tiendas',
   'shop=cosmetics': 'supermercados_tiendas',
+  'shop=perfumery': 'supermercados_tiendas',
+  'shop=watches': 'supermercados_tiendas',
   'shop=books': 'supermercados_tiendas',
+  'shop=electronics': 'supermercados_tiendas',
+  'shop=mobile_phone': 'supermercados_tiendas',
+  'shop=computer': 'supermercados_tiendas',
+  'shop=video_games': 'supermercados_tiendas',
+  'shop=toys': 'supermercados_tiendas',
+  'shop=gift': 'supermercados_tiendas',
+  'shop=stationery': 'supermercados_tiendas',
   'shop=florist': 'supermercados_tiendas',
-  'shop=hairdresser': 'servicios_personales',
-  'shop=laundry': 'servicios_personales',
+  'shop=convenience': 'supermercados_tiendas',
+  'shop=kiosk': 'supermercados_tiendas',
+  'shop=variety_store': 'supermercados_tiendas',
+  'shop=hardware': 'supermercados_tiendas',
+  'shop=doityourself': 'supermercados_tiendas',
+  'shop=furniture': 'supermercados_tiendas',
 
-  // SALUD
+  // SALUD Y BIENESTAR
   'amenity=hospital': 'salud_bienestar',
   'amenity=clinic': 'salud_bienestar',
   'amenity=pharmacy': 'salud_bienestar',
+  'amenity=doctors': 'salud_bienestar',
+  'amenity=dentist': 'salud_bienestar',
+  'amenity=veterinary': 'salud_bienestar',
+  'shop=chemist': 'salud_bienestar',
+  'shop=health_food': 'salud_bienestar',
+  'shop=optician': 'salud_bienestar',
+  'amenity=yoga_studio': 'salud_bienestar',
 
   // EDUCACIÓN
   'amenity=school': 'educacion',
+  'amenity=university': 'educacion',
+  'amenity=college': 'educacion',
   'amenity=kindergarten': 'educacion',
+  'amenity=library': 'educacion',
 
-  // BANCOS
+  // FINANZAS
   'amenity=bank': 'bancos',
   'amenity=atm': 'bancos',
+  'amenity=bureau_de_change': 'bancos',
 
-  // PARQUES
+  // PARQUES Y ÁREAS VERDES
   'leisure=park': 'parques_areas_verdes',
+  'leisure=garden': 'parques_areas_verdes',
+  'leisure=nature_reserve': 'parques_areas_verdes',
+  'leisure=common': 'parques_areas_verdes',
 
-  // ============================================
-  // EDIFICIOS RESIDENCIALES (DENSIDAD POBLACIONAL)
-  // ============================================
+  // DEPORTES
+  'leisure=sports_centre': 'deportes',
+  'leisure=fitness_centre': 'deportes',
+  'amenity=fitness_centre': 'deportes',
+  'leisure=pitch': 'deportes',
+  'leisure=swimming_pool': 'deportes',
+  'leisure=stadium': 'deportes',
+  'leisure=tennis_court': 'deportes',
+  'leisure=golf_course': 'deportes',
+
+  // CULTURA Y ENTRETENIMIENTO
+  'amenity=theatre': 'cultura_entretenimiento',
+  'amenity=cinema': 'cultura_entretenimiento',
+  'amenity=arts_centre': 'cultura_entretenimiento',
+  'amenity=nightclub': 'cultura_entretenimiento',
+  'amenity=casino': 'cultura_entretenimiento',
+  'tourism=museum': 'cultura_entretenimiento',
+  'tourism=art_gallery': 'cultura_entretenimiento',
+  'tourism=artwork': 'cultura_entretenimiento',
+  'tourism=attraction': 'cultura_entretenimiento',
+  'tourism=theme_park': 'cultura_entretenimiento',
+  'tourism=zoo': 'cultura_entretenimiento',
+  'leisure=escape_room': 'cultura_entretenimiento',
+
+  // TRANSPORTE
+  'highway=bus_stop': 'transporte',
+  'amenity=bus_station': 'transporte',
+  'amenity=fuel': 'transporte',
+  'amenity=charging_station': 'transporte',
+  'amenity=parking': 'transporte',
+  'amenity=parking_entrance': 'transporte',
+  'amenity=taxi': 'transporte',
+  'railway=station': 'transporte',
+  'railway=subway_entrance': 'transporte',
+  'aeroway=aerodrome': 'transporte',
+  'tourism=hotel': 'turismo_hospedaje',
+  'tourism=motel': 'turismo_hospedaje',
+  'tourism=hostel': 'turismo_hospedaje',
+  'tourism=guest_house': 'turismo_hospedaje',
+
+  // SERVICIOS EMPRESARIALES
+  'office=yes': 'servicios_empresariales',
+  'office=company': 'servicios_empresariales',
+  'office=government': 'servicios_empresariales',
+  'office=it': 'servicios_empresariales',
+  'office=telecommunication': 'servicios_empresariales',
+  'office=insurance': 'servicios_empresariales',
+  'office=coworking': 'servicios_empresariales',
+  'amenity=business_centre': 'servicios_empresariales',
+  'amenity=conference_centre': 'servicios_empresariales',
+  'amenity=townhall': 'servicios_empresariales',
+  'amenity=courthouse': 'servicios_empresariales',
+  'amenity=embassy': 'servicios_empresariales',
+
+  // SERVICIOS PROFESIONALES
+  'office=lawyer': 'servicios_profesionales',
+  'office=architect': 'servicios_profesionales',
+  'office=accountant': 'servicios_profesionales',
+  'office=employment_agency': 'servicios_profesionales',
+  'office=estate_agent': 'servicios_profesionales',
+  'office=advertising_agency': 'servicios_profesionales',
+
+  // SERVICIOS PERSONALES
+  'shop=hairdresser': 'servicios_personales',
+  'shop=laundry': 'servicios_personales',
+  'shop=dry_cleaning': 'servicios_personales',
+  'shop=beauty': 'servicios_personales',
+  'shop=tailor': 'servicios_personales',
+  'craft=shoemaker': 'servicios_personales',
+  'craft=watchmaker': 'servicios_personales',
+  'craft=photographer': 'servicios_personales',
+
+  // RELIGIÓN
+  'amenity=place_of_worship': 'religion',
+
+  // EDIFICIOS RESIDENCIALES
   'building=apartments': 'residencial',
   'building=residential': 'residencial',
   'building=house': 'residencial',
   'building=dormitory': 'residencial',
   'building=flats': 'residencial',
   'building=terrace': 'residencial',
-  'building=yes': 'residencial',  // Genérico - asumimos residencial
-  'leisure=garden': 'parques_areas_verdes',
-
-  // DEPORTES
-  'leisure=sports_centre': 'deportes',
-  'leisure=fitness_centre': 'deportes',
-  'amenity=fitness_centre': 'deportes',
-
-  // CULTURA
-  'amenity=theatre': 'cultura_entretenimiento',
-  'amenity=cinema': 'cultura_entretenimiento',
-
-  // TRANSPORTE
-  'highway=bus_stop': 'transporte',
-  'amenity=parking': 'transporte',
-  'amenity=parking_entrance': 'transporte',
-
-  // TURISMO
-  'tourism=hotel': 'turismo_hospedaje',
-  'tourism=guest_house': 'turismo_hospedaje',
-  'tourism=artwork': 'cultura_entretenimiento',
-
-  // RELIGIÓN
-  'amenity=place_of_worship': 'religion',
+  'building=yes': 'residencial',
 };
 
 // Matriz de pesos: Categoría Venue → Perfiles DOOH
@@ -125,27 +212,29 @@ const MATRIZ_PERFILES = {
     business_executive: 2.0,
     daily_life: 1.5,
     gen_z_lifestyle: 2.5,
+    high_end_luxury: 1.5,
     health_wellness: 0.5
   },
   supermercados_tiendas: {
     daily_life: 3.0,
     business_executive: 0.5,
-    high_end_luxury: 1.0
+    high_end_luxury: 2.0,
+    gen_z_lifestyle: 1.5
   },
   salud_bienestar: {
     health_wellness: 3.0,
-    daily_life: 1.5,
+    daily_life: 2.0,
     business_executive: 0.5
   },
   educacion: {
     gen_z_lifestyle: 2.5,
-    business_executive: 1.0,
+    business_executive: 1.5,
     daily_life: 1.0
   },
   bancos: {
     business_executive: 3.0,
-    daily_life: 1.0,
-    high_end_luxury: 1.5
+    daily_life: 1.5,
+    high_end_luxury: 2.0
   },
   parques_areas_verdes: {
     health_wellness: 2.5,
@@ -154,28 +243,41 @@ const MATRIZ_PERFILES = {
   },
   deportes: {
     health_wellness: 3.0,
-    gen_z_lifestyle: 1.5
+    gen_z_lifestyle: 1.5,
+    high_end_luxury: 1.0
   },
   cultura_entretenimiento: {
-    gen_z_lifestyle: 2.0,
-    high_end_luxury: 2.5,
+    gen_z_lifestyle: 2.5,
+    high_end_luxury: 3.0,
     daily_life: 1.0
   },
   transporte: {
     travel_transit: 3.0,
-    business_executive: 1.0,
+    business_executive: 1.5,
     daily_life: 1.5
   },
+  servicios_empresariales: {
+    business_executive: 3.0,
+    travel_transit: 1.0,
+    high_end_luxury: 1.0
+  },
+  servicios_profesionales: {
+    business_executive: 3.0,
+    high_end_luxury: 1.5,
+    daily_life: 0.5
+  },
   servicios_personales: {
-    daily_life: 2.0,
-    business_executive: 0.5
+    daily_life: 2.5,
+    business_executive: 0.5,
+    gen_z_lifestyle: 1.0
   },
   turismo_hospedaje: {
-    travel_transit: 2.0,
-    business_executive: 1.5
+    travel_transit: 3.0,
+    business_executive: 2.0,
+    high_end_luxury: 2.0
   },
   religion: {
-    daily_life: 1.0,
+    daily_life: 1.5,
     gen_z_lifestyle: 0.5
   }
 };
@@ -241,62 +343,43 @@ function determinarZona(distancia: number, esAncla: boolean): { zona: string; pe
 async function extraerVenues(lat: number, lng: number, radio: number): Promise<any[]> {
   log('INICIO', `📍 Extrayendo venues alrededor de [${lat}, ${lng}] con radio ${radio}m`);
 
-  // Calcular bounding box (más grande para auditoría: 800m)
-  const bboxSize = 800 / 111000; // Convertir metros a grados aprox
-  const bbox = `${lat - bboxSize},${lng - bboxSize},${lat + bboxSize},${lng + bboxSize}`;
+  // Radio máximo para auditoría y anclas (800m)
+  const radioMaximo = 800;
 
-  log('OVERPASS', `Bounding box: ${bbox}`);
+  log('OVERPASS', `Radio de búsqueda: ${radioMaximo}m`);
 
-  // MODO AUDITORÍA: Traer TODOS los venues, no filtrar por categoría
-  let query: string;
+  // OPTIMIZACIÓN: Broad filtering por llaves principales + Operador 'around' nativo
+  // Esto es mucho más eficiente que pedir tag por tag
+  const query = `
+    [out:json][timeout:90];
+    (
+      node(around:${radioMaximo},${lat},${lng})["amenity"];
+      way(around:${radioMaximo},${lat},${lng})["amenity"];
+      node(around:${radioMaximo},${lat},${lng})["shop"];
+      way(around:${radioMaximo},${lat},${lng})["shop"];
+      node(around:${radioMaximo},${lat},${lng})["leisure"];
+      way(around:${radioMaximo},${lat},${lng})["leisure"];
+      node(around:${radioMaximo},${lat},${lng})["tourism"];
+      way(around:${radioMaximo},${lat},${lng})["tourism"];
+      node(around:${radioMaximo},${lat},${lng})["highway"];
+      way(around:${radioMaximo},${lat},${lng})["highway"];
+      node(around:${radioMaximo},${lat},${lng})["building"];
+      way(around:${radioMaximo},${lat},${lng})["building"];
+      node(around:${radioMaximo},${lat},${lng})["office"];
+      way(around:${radioMaximo},${lat},${lng})["office"];
+      node(around:${radioMaximo},${lat},${lng})["craft"];
+      way(around:${radioMaximo},${lat},${lng})["craft"];
+      node(around:${radioMaximo},${lat},${lng})["public_transport"];
+      way(around:${radioMaximo},${lat},${lng})["public_transport"];
+      node(around:${radioMaximo},${lat},${lng})["railway"];
+      way(around:${radioMaximo},${lat},${lng})["railway"];
+      node(around:${radioMaximo},${lat},${lng})["aeroway"];
+      way(around:${radioMaximo},${lat},${lng})["aeroway"];
+    );
+    out center;
+  `;
 
-  if (MODO_AUDITORIA) {
-    query = `
-      [out:json][timeout:90];
-      (
-        node["amenity"](${bbox});
-        way["amenity"](${bbox});
-        relation["amenity"](${bbox});
-        node["shop"](${bbox});
-        way["shop"](${bbox});
-        relation["shop"](${bbox});
-        node["leisure"](${bbox});
-        way["leisure"](${bbox});
-        relation["leisure"](${bbox});
-        node["tourism"](${bbox});
-        way["tourism"](${bbox});
-        relation["tourism"](${bbox});
-        node["highway"](${bbox});
-        way["highway"](${bbox});
-        node["building"](${bbox});
-        way["building"](${bbox});
-      );
-      out center;
-    `;
-    log('OVERPASS', `🔍 MODO AUDITORÍA: Extrayendo TODOS los venues + BUILDINGS`);
-  } else {
-    // Modo normal con filtros predefinidos
-    const queries = Object.entries(CATEGORIAS_MAPBOX).map(([tagKey]) => {
-      const [key, value] = tagKey.split('=');
-      return `node["${key}"="${value}"](${bbox});`;
-    }).join('\n      ');
-
-    // Agregar query para buildings (todos los tipos)
-    const buildingQueries = [
-      `node["building"](${bbox});`,
-      `way["building"](${bbox});`
-    ].join('\n      ');
-
-    query = `
-      [out:json][timeout:60];
-      (
-        ${queries}
-        ${buildingQueries}
-      );
-      out center;
-    `;
-    log('OVERPASS', `Query generada (${queries.length} categorías + buildings)`);
-  }
+  log('OVERPASS', `🔍 Enviando query optimizada (around + broad keys)`);
 
   try {
     const url = 'https://overpass-api.de/api/interpreter';
@@ -354,7 +437,7 @@ function procesarVenues(elements: any[], centroLat: number, centroLng: number): 
     return procesarVenuesAuditoria(elements, centroLat, centroLng);
   }
 
-  // Modo normal (código original que tenías)
+  // Modo normal
   const venues: VenueProcesado[] = [];
 
   for (const element of elements) {
@@ -388,16 +471,40 @@ function procesarVenues(elements: any[], centroLat: number, centroLng: number): 
       continue;
     }
 
-    // Categorizar venue y extraer tipo original de Mapbox
+    // =====================================================================
+    // LÓGICA DE CATEGORIZACIÓN (CON OPTIMIZACIÓN MIXED-USE)
+    // =====================================================================
     let categoria: string | undefined;
     let tipoMapbox: string | undefined;
 
-    for (const [tagKey, cat] of Object.entries(CATEGORIAS_MAPBOX)) {
-      const [key, value] = tagKey.split('=');
-      if (element.tags[key] === value) {
-        categoria = cat;
-        tipoMapbox = `${key}=${value}`;
-        break;
+    // 1. Prioridad: Tags comerciales/servicios sobre edificios genéricos
+    // Si es un edificio pero tiene tags de oficina o tienda, NO es residencial
+    const esEdificioGenerico = element.tags.building === 'yes' || element.tags.building === 'residential';
+    const tieneTagsComerciales = element.tags.office || element.tags.shop || element.tags.amenity;
+
+    if (esEdificioGenerico && tieneTagsComerciales) {
+      // Buscamos primero en categorías comerciales
+      for (const [tagKey, cat] of Object.entries(CATEGORIAS_MAPBOX)) {
+        if (cat === 'residencial') continue; // Saltamos residencial en este primer pase
+        
+        const [key, value] = tagKey.split('=');
+        if (element.tags[key] === value) {
+          categoria = cat;
+          tipoMapbox = `${key}=${value}`;
+          break;
+        }
+      }
+    }
+
+    // 2. Pase normal si no se categorizó arriba
+    if (!categoria) {
+      for (const [tagKey, cat] of Object.entries(CATEGORIAS_MAPBOX)) {
+        const [key, value] = tagKey.split('=');
+        if (element.tags[key] === value) {
+          categoria = cat;
+          tipoMapbox = `${key}=${value}`;
+          break;
+        }
       }
     }
 
@@ -410,7 +517,7 @@ function procesarVenues(elements: any[], centroLat: number, centroLng: number): 
       id: element.id.toString(),
       nombre,
       categoria,
-      tipo_mapbox: tipoMapbox!,  // Agregamos el tipo original
+      tipo_mapbox: tipoMapbox!,
       distancia: Math.round(distancia),
       zona,
       peso,
@@ -424,23 +531,12 @@ function procesarVenues(elements: any[], centroLat: number, centroLng: number): 
   return venues;
 }
 
-// Tags basura que debemos ignorar
-const TAGS_A_IGNOREAR = [
-  'highway=crossing',
-  'highway=stop',
-  'highway=traffic_signals',
-  'highway=give_way',
-  'highway=street_lamp',
-  'highway=speed_camera'
-];
-
-// Nueva función para auditoría: lista TODO sin categorizar
+// Nueva función para auditoría: lista TODO sin categorizar (con Mixed-Use)
 function procesarVenuesAuditoria(elements: any[], centroLat: number, centroLng: number): VenueProcesado[] {
   log('AUDITORÍA', '🔍 Modo auditoría: Listando venues relevantes...');
 
   const venues: VenueProcesado[] = [];
   let elementsProcessed = 0;
-  let waysSinCentro = 0;
   let elementsSinTags = 0;
   let elementosFueraRango = 0;
 
@@ -456,39 +552,13 @@ function procesarVenuesAuditoria(elements: any[], centroLat: number, centroLng: 
     let lat: number;
     let lng: number;
 
-    // Intentar obtener coordenadas del nodo
     if (element.type === 'node' && element.lat && element.lon) {
       lat = element.lat;
       lng = element.lon;
-    }
-    // Para ways y relations, usar center
-    else if (element.center && typeof element.center.lat === 'number' && typeof element.center.lon === 'number') {
+    } else if (element.center && typeof element.center.lat === 'number' && typeof element.center.lon === 'number') {
       lat = element.center.lat;
       lng = element.center.lon;
-    }
-    // Último intento: verificar si tiene lat/lon directo (para some nodes)
-    else if (typeof element.lat === 'number' && typeof element.lon === 'number') {
-      lat = element.lat;
-      lng = element.lon;
-    }
-    else {
-      // Log de elementos sin coordenadas válidas
-      if (element.tags?.shop === 'mall' || element.tags?.shop === 'shopping_centre') {
-        console.log(`\n⚠️  ELEMENTO SIN COORDENADAS VÁLIDAS: ${element.tags.name}`);
-        console.log(`   Tipo: ${element.type}`);
-        console.log(`   Tiene lat?:`, typeof element.lat, element.lat);
-        console.log(`   Tiene lon?:`, typeof element.lon, element.lon);
-        console.log(`   Tiene center?:`, !!element.center);
-        console.log(`   Center:`, element.center);
-      }
-      continue;
-    }
-
-    // Detectar tags principales
-    const tagPrincipal = detectarTagPrincipal(element.tags);
-
-    // Filtrar tags basura
-    if (TAGS_A_IGNOREAR.includes(tagPrincipal)) {
+    } else {
       continue;
     }
 
@@ -501,21 +571,30 @@ function procesarVenuesAuditoria(elements: any[], centroLat: number, centroLng: 
       continue;
     }
 
+    // Detectar tag principal
+    let tagPrincipal = detectarTagPrincipal(element.tags);
+
+    // OPTIMIZACIÓN MIXED-USE EN AUDITORÍA
+    // Si el tag principal es building=yes pero tiene office/shop, lo mostramos
+    if (tagPrincipal === 'building=yes' || tagPrincipal === 'building=residential') {
+      const tagComercial = element.tags.office ? `office=${element.tags.office}` : 
+                           element.tags.shop ? `shop=${element.tags.shop}` : 
+                           element.tags.amenity ? `amenity=${element.tags.amenity}` : null;
+      if (tagComercial) {
+        tagPrincipal = `${tagPrincipal} (Mixed: ${tagComercial})`;
+      }
+    }
+
+    // Filtrar tags basura
+    if (TAGS_A_IGNOREAR.includes(tagPrincipal)) {
+      continue;
+    }
+
     // Extraer nombre
     const nombre = element.tags.name || element.tags['name:es'] || 'Sin nombre';
 
-    // LOG: Detectar malls
-    if (tagPrincipal === 'shop=mall') {
-      console.log(`\n🛍️  MALL DETECTADO: ${nombre}`);
-      console.log(`   Distancia: ${Math.round(distancia)}m`);
-      console.log(`   Coordenadas: [${lat}, ${lng}]`);
-      console.log(`   Tipo: ${element.type}`);
-    }
-
-    // Calcular zona (para info)
     const { zona } = determinarZona(distancia, esVenueAncla(element.tags));
 
-    // En modo auditoría, guardamos con categoria = "sin_clasificar"
     venues.push({
       id: element.id.toString(),
       nombre,
@@ -523,7 +602,7 @@ function procesarVenuesAuditoria(elements: any[], centroLat: number, centroLng: 
       tipo_mapbox: tagPrincipal,
       distancia: Math.round(distancia),
       zona,
-      peso: 0, // No calculamos peso en auditoría
+      peso: 0,
       es_ancla: esVenueAncla(element.tags),
       coordenadas: { lat, lng }
     });
@@ -532,10 +611,8 @@ function procesarVenuesAuditoria(elements: any[], centroLat: number, centroLng: 
   console.log(`\n📊 ESTADÍSTICAS DE PROCESAMIENTO:`);
   console.log(`   Elementos totales: ${elementsProcessed}`);
   console.log(`   Sin tags: ${elementsSinTags}`);
-  console.log(`   Ways sin centro: ${waysSinCentro}`);
   console.log(`   Fuera de rango (>800m): ${elementosFueraRango}`);
   console.log(`   Venues válidos: ${venues.length}`);
-
 
   log('AUDITORÍA', `✅ ${venues.length} venues relevantes encontrados`);
 
