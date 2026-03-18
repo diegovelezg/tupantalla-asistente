@@ -13,68 +13,76 @@ En lugar de buscar etiquetas sueltas, el sistema genera una "historia" para cada
 *   **Valor de Negocio**: Clientes ideales y argumentos de venta maestros.
 *   **Entorno Vivo**: Puntos de interés (anclas) reales detectados vía Overpass API (OpenStreetMap).
 
-**Ejemplo de Narrativa:**
-> *"Pantalla Argentina Cdra 30 en Callao. Audiencia con mindset de 'Hogar y Ejecutivo'. Ideal para: Supermercados, Farmacias y Servicios B2B. Negocios cercanos: Plaza Vea, Inkafarma. Categorías: Retail, Salud."*
+---
 
-### 2. Infraestructura Técnica
-*   **Modelo**: `gemini-embedding-001` (@google/genai).
-*   **Vectores**: 768 dimensiones (truncado Matryoshka para máxima eficiencia y compatibilidad).
-*   **Base de Datos**: Supabase (PostgreSQL) con la extensión `pgvector`.
-*   **Índice**: HNSW (Hierarchical Navigable Small World) para búsquedas de alta velocidad por similitud de coseno.
+## 🗺️ Enriquecimiento Geoespacial (The Data Engine)
+
+El análisis de cada pantalla parte de su coordenada GPS exacta ("El Centro"). Desde este punto, el sistema evalúa el entorno en anillos concéntricos de influencia.
+
+### 1. Sistema de Zonas y Distancia al Centro
+La relevancia de un local o servicio está directamente ligada a su proximidad a la pantalla. Aplicamos pesos decrecientes para reflejar el impacto real en la audiencia:
+
+| Zona | Radio (Distancia al Centro) | Peso | Significado Comercial |
+| :--- | :--- | :--- | :--- |
+| **Zona A** | **0 - 150m** | **1.0** | **Impacto Directo**: Audiencia con visibilidad inmediata y flujo peatonal primario. |
+| **Zona B** | **150 - 300m** | **0.5** | **Influencia Próxima**: Área de influencia a 5 minutos caminando (buyer's journey). |
+| **Zona C** | **300 - 400m** | **0.2** | **Entorno Extendido**: Contexto sociodemográfico y comercial general. |
+
+### 2. Factor Ancla (Nodos de Atracción Masiva)
+Existe una zona especial para infraestructuras que, a pesar de estar alejadas, actúan como imanes de audiencia que definen el perfil de la zona:
+
+*   **Rango**: **400m - 800m**
+*   **Peso**: **0.3**
+*   **Venues Calificados**: Malls (`shop=mall`), Estadios, Terminales de Bus, Estaciones de Tren, Aeropuertos y Recintos Feriales.
+*   **Propósito**: Capturar flujos masivos que una búsqueda radial estándar de 400m ignoraría.
+
+### 3. Construcción del Perfil (Mindset)
+El perfil se construye mediante una **Agregación Ponderada** y una corrección de **Concentración Exponencial**:
+
+*   **Fórmula**: `Score Perfil = Σ(pesos_zona)^0.6 × peso_perfil`
+*   **Factor `n^0.6`**: Este ajuste permite que tener 10 bancos en Zona A pese más que tener 1, pero no 10 veces más (pesa ~4 veces más). Esto garantiza que el perfil refleje la **variedad** comercial y no solo la acumulación de un solo tipo de local.
+
+---
+
+## 📊 Métricas de Análisis
+
+### A. Intensidad Absoluta (0-100)
+Mide la "fuerza comercial" total del área. Es una suma lineal ponderada que indica qué tan "viva" está la ubicación comercialmente, ideal para comparar el potencial de ventas entre pantallas.
+
+### B. Afinidad de Perfil (%)
+Indica la especialización de la pantalla. Una pantalla puede tener baja Intensidad comercial pero una **Afinidad de Lujo del 90%** si está rodeada exclusivamente de galerías de arte y boutiques.
 
 ---
 
 ## 📋 Arquitectura del Sistema
 
-El sistema opera bajo un flujo de tres capas que garantiza precisión técnica y persuasión comercial:
-
 ### Capa 1: Anamnesis Semántica (Input)
-*   **Input**: Lenguaje natural ("Quiero anunciar mi veterinaria").
-*   **Acción**: El sistema convierte la frase del usuario en un vector de 768 dimensiones.
-*   **Inteligencia**: Entiende que "perros", "mascotas" y "clínica veterinaria" son conceptos cercanos en el espacio vectorial.
+El sistema convierte la frase del usuario ("Quiero anunciar mi veterinaria") en un vector de 768 dimensiones que representa su intención comercial.
 
 ### Capa 2: Match Semántico (SQL RPC)
-*   **Función**: `match_pantallas_comerciales(query_embedding, threshold, count)`.
-*   **Proceso**: Calcula la distancia de coseno entre la intención del usuario y la narrativa de cada pantalla.
-*   **Ranking**: Devuelve las pantallas ordenadas por **Afinidad Conceptual**, no solo por coincidencia de texto.
+Calcula la distancia de coseno entre la intención del usuario y la narrativa enriquecida (que incluye los datos de proximidad y anclas) de cada pantalla.
 
 ### Capa 3: Pitch Persuasivo (Output)
-*   **Acción**: El asistente construye el pitch final integrando el **Argumento Maestro** del perfil con los datos reales del entorno.
-*   **Output**: *"Te sugiero esta pantalla porque, aunque no mencionaste 'bancos', tu perfil de cliente ejecutivo coincide con el entorno financiero de esta ubicación (Score 92/100)."*
-
----
-
-## 🗺️ Enriquecimiento Geoespacial (The Data Engine)
-
-Antes de la fase semántica, cada pantalla es analizada mediante un motor geoespacial propio:
-
-### 1. Extracción vía Overpass API (OSM)
-Analizamos un radio de hasta 800m alrededor de cada pantalla para detectar Venues clave (Bancos, Centros Comerciales, Gimnasios, etc.).
-
-### 2. Sistema de Scoring Logarítmico
-Para evitar la saturación (que 10 farmacias pesen 10 veces más que una), aplicamos una corrección logarítmica:
-`Score = Σ( (cantidad^0.6) × peso_distancia )`
+Construye el argumento final integrando el **Argumento Maestro** del perfil con los datos reales encontrados (ej: "Ideal para tu marca ya que tienes un Centro Comercial Ancla a 600m").
 
 ---
 
 ## 🚀 Guía de Uso Rápido
 
-### Generar/Actualizar Embeddings
-Si el inventario cambia, ejecuta el script de poblamiento:
+### Analizar una Coordenada (JSON Output)
+```bash
+npx ts-node scripts/analyze-coords.ts -12.0915 -77.0369
+```
+
+### Generar/Actualizar Embeddings de Inventario
 ```bash
 npx ts-node scripts/generate-commercial-embeddings.ts
 ```
 
-### Probar la Búsqueda en Supabase
-```sql
-SELECT * FROM match_pantallas_comerciales([TU_VECTOR], 0.5, 5);
-```
-
 ### Tecnologías Clave
-*   **Backend**: Node.js + TypeScript.
-*   **AI**: Google Gemini (Embeddings).
-*   **DB**: Supabase + pgvector.
-*   **Geo**: Overpass API + Mapbox.
+*   **AI**: Google Gemini (Embeddings `gemini-embedding-001`).
+*   **Geo**: Overpass API (OSM) + Mapbox Taxonomy.
+*   **DB**: Supabase + pgvector (HNSW Index).
 
 ---
 
@@ -83,14 +91,12 @@ SELECT * FROM match_pantallas_comerciales([TU_VECTOR], 0.5, 5);
 ```
 tupantalla-asistente/
 ├── scripts/
-│   ├── generate-commercial-embeddings.ts  # CEREBRO: Generación de vectores Gemini
-│   └── test-pantalla-1.ts                 # POC: Análisis geoespacial
-├── src/
-│   ├── lib/
-│   │   ├── venueAnalysis.ts               # Lógica de extracción Overpass
-│   │   └── coordinateUtils.ts             # Utilidades GPS
-└── conductor/
-    └── plan-busqueda-semantica.md         # Especificación técnica del sistema
+│   ├── analyze-coords.ts        # Motor de análisis geoespacial real-time
+│   ├── batch-analyze.ts         # Análisis masivo de inventario
+│   └── generate-commercial-embeddings.ts  # Generación de vectores semánticos
+├── conductor/
+│   └── plan-busqueda-semantica.md  # Especificación técnica del sistema
+└── README.md                    # Esta guía
 ```
 
 ---
