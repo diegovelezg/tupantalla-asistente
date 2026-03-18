@@ -1,0 +1,50 @@
+          updated_at = NOW()
+          WHERE pantalla_id = 'prod_01JN6E1F7G8XZ7QT3KYH8SF7W5';
+UPDATE public.pantallas_analisis SET 
+          perfil_primario = 'gen_z_lifestyle',
+          perfil_secundario = 'daily_life',
+          score_intensidad = 3.5,
+          scores_full_json = '{"business_executive":3.399773067397644,"daily_life":3.9331820449317627,"health_wellness":3,"gen_z_lifestyle":4.832955112329406,"high_end_luxury":0,"travel_transit":0}'::jsonb,
+          resumen_entorno = '{"anclas":[],"categorias_principales":[{"categoria":"educacion","cantidad":3},{"categoria":"salud_bienestar","cantidad":1}]}'::jsonb,
+          updated_at = NOW()
+          WHERE pantalla_id = 'prod_01JN6E1F8SWVYHFQ7P4WZHZFWZ';
+UPDATE public.pantallas_analisis SET 
+          perfil_primario = 'gen_z_lifestyle',
+          perfil_secundario = 'daily_life',
+          score_intensidad = 3.5,
+          scores_full_json = '{"business_executive":3.399773067397644,"daily_life":3.9331820449317627,"health_wellness":3,"gen_z_lifestyle":4.832955112329406,"high_end_luxury":0,"travel_transit":0}'::jsonb,
+          resumen_entorno = '{"anclas":[],"categorias_principales":[{"categoria":"educacion","cantidad":3},{"categoria":"salud_bienestar","cantidad":1}]}'::jsonb,
+          updated_at = NOW()
+          WHERE pantalla_id = 'prod_01JN6E1F9W5VYHFQ7P4WZHXL9B';
+UPDATE public.pantallas_analisis SET 
+          perfil_primario = 'daily_life',
+          perfil_secundario = 'gen_z_lifestyle',
+          score_intensidad = 56.7,
+          scores_full_json = '{"business_executive":33.59834149671181,"daily_life":45.811567354677145,"health_wellness":15.882435922436947,"gen_z_lifestyle":38.39388400951046,"high_end_luxury":26.112852394159557,"travel_transit":8.790468154750565}'::jsonb,
+          resumen_entorno = '{"anclas":["Atocongo"],"categorias_principales":[{"categoria":"gastronomia","cantidad":14},{"categoria":"educacion","cantidad":13},{"categoria":"supermercados_tiendas","cantidad":9},{"categoria":"salud_bienestar","cantidad":8},{"categoria":"transporte","cantidad":6}]}'::jsonb,
+          updated_at = NOW()
+          WHERE pantalla_id = 'prod_01JN6E1FA6P8XQKHYH8QF9RJV7';
+UPDATE public.pantallas_analisis SET 
+          perfil_primario = 'daily_life',
+          perfil_secundario = 'gen_z_lifestyle',
+          score_intensidad = 56.7,
+          scores_full_json = '{"business_executive":33.59834149671181,"daily_life":45.811567354677145,"health_wellness":15.882435922436947,"gen_z_lifestyle":38.39388400951046,"high_end_luxury":26.112852394159557,"travel_transit":8.790468154750565}'::jsonb,
+          resumen_entorno = '{"anclas":["Atocongo"],"categorias_principales":[{"categoria":"gastronomia","cantidad":14},{"categoria":"educacion","cantidad":13},{"categoria":"supermercados_tiendas","cantidad":9},{"categoria":"salud_bienestar","cantidad":8},{"categoria":"transporte","cantidad":6}]}'::jsonb,
+          updated_at = NOW()
+          WHERE pantalla_id = 'prod_01JN6E202C4TXXGKHYH8QF9YH8';
+UPDATE public.pantallas_analisis SET 
+          perfil_primario = 'daily_life',
+          perfil_secundario = 'business_executive',
+          score_intensidad = 100,
+          scores_full_json = '{"business_executive":98.03349632596058,"daily_life":111.86502745735324,"health_wellness":39.427744006255324,"gen_z_lifestyle":86.50943072245754,"high_end_luxury":72.98856508526724,"travel_transit":27.83780408445255}'::jsonb,
+          resumen_entorno = '{"anclas":["Huancayo","Terminal Zonal Selva Central"],"categorias_principales":[{"categoria":"supermercados_tiendas","cantidad":67},{"categoria":"educacion","cantidad":62},{"categoria":"gastronomia","cantidad":46},{"categoria":"salud_bienestar","cantidad":43},{"categoria":"servicios_personales","cantidad":17}]}'::jsonb,
+          updated_at = NOW()
+          WHERE pantalla_id = 'prod_01JBM432R8TA7QK5YN8YE9JN86';
+UPDATE public.pantallas_analisis SET 
+          perfil_primario = 'daily_life',
+          perfil_secundario = 'business_executive',
+          score_intensidad = 8.7,
+          scores_full_json = '{"business_executive":9.4775281980119,"daily_life":9.508961331032697,"health_wellness":0,"gen_z_lifestyle":6.062866266041592,"high_end_luxury":4.031433133020796,"travel_transit":7.892190129982209}'::jsonb,
+          resumen_entorno = '{"anclas":["Paradero Umamarca"],"categorias_principales":[{"categoria":"transporte","cantidad":4},{"categoria":"supermercados_tiendas","cantidad":2},{"categoria":"educacion","cantidad":2},{"categoria":"servicios_empresariales","cantidad":1}]}'::jsonb,
+          updated_at = NOW()
+          WHERE pantalla_id = 'prod_01HKT2ZEY7YCZ17YQBN56BCMMH';

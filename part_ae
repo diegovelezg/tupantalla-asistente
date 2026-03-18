@@ -1,0 +1,50 @@
+UPDATE public.pantallas_analisis SET 
+          perfil_primario = 'business_executive',
+          perfil_secundario = 'daily_life',
+          score_intensidad = 42.8,
+          scores_full_json = '{"business_executive":36.637341988982506,"daily_life":32.23648356173672,"health_wellness":9.53768555229868,"gen_z_lifestyle":26.046533350745285,"high_end_luxury":30.27136882365416,"travel_transit":12.822346181565731}'::jsonb,
+          resumen_entorno = '{"anclas":["La Cultura"],"categorias_principales":[{"categoria":"gastronomia","cantidad":10},{"categoria":"supermercados_tiendas","cantidad":10},{"categoria":"servicios_empresariales","cantidad":6},{"categoria":"bancos","cantidad":6},{"categoria":"transporte","cantidad":4}]}'::jsonb,
+          updated_at = NOW()
+          WHERE pantalla_id = 'prod_01JN6E21RKTXYGKHYH8QF9ZZYD';
+UPDATE public.pantallas_analisis SET 
+          perfil_primario = 'business_executive',
+          perfil_secundario = 'daily_life',
+          score_intensidad = 42.8,
+          scores_full_json = '{"business_executive":36.637341988982506,"daily_life":32.23648356173672,"health_wellness":9.53768555229868,"gen_z_lifestyle":26.046533350745285,"high_end_luxury":30.27136882365416,"travel_transit":12.822346181565731}'::jsonb,
+          resumen_entorno = '{"anclas":["La Cultura"],"categorias_principales":[{"categoria":"gastronomia","cantidad":10},{"categoria":"supermercados_tiendas","cantidad":10},{"categoria":"servicios_empresariales","cantidad":6},{"categoria":"bancos","cantidad":6},{"categoria":"transporte","cantidad":4}]}'::jsonb,
+          updated_at = NOW()
+          WHERE pantalla_id = 'prod_01JN6E21SKTXYGKHYH8QF9ZZKM';
+UPDATE public.pantallas_analisis SET 
+          perfil_primario = 'business_executive',
+          perfil_secundario = 'daily_life',
+          score_intensidad = 42.8,
+          scores_full_json = '{"business_executive":36.637341988982506,"daily_life":32.23648356173672,"health_wellness":9.53768555229868,"gen_z_lifestyle":26.046533350745285,"high_end_luxury":30.27136882365416,"travel_transit":12.822346181565731}'::jsonb,
+          resumen_entorno = '{"anclas":["La Cultura"],"categorias_principales":[{"categoria":"gastronomia","cantidad":10},{"categoria":"supermercados_tiendas","cantidad":10},{"categoria":"servicios_empresariales","cantidad":6},{"categoria":"bancos","cantidad":6},{"categoria":"transporte","cantidad":4}]}'::jsonb,
+          updated_at = NOW()
+          WHERE pantalla_id = 'prod_01JN6E21UKTXYGKHYH8QF9ZZY8';
+UPDATE public.pantallas_analisis SET 
+          perfil_primario = 'daily_life',
+          perfil_secundario = 'business_executive',
+          score_intensidad = 100,
+          scores_full_json = '{"business_executive":55.09176236147543,"daily_life":66.58748219144586,"health_wellness":14.418141944337567,"gen_z_lifestyle":47.021208637268955,"high_end_luxury":49.13738506888838,"travel_transit":17.839574776047918}'::jsonb,
+          resumen_entorno = '{"anclas":[],"categorias_principales":[{"categoria":"gastronomia","cantidad":43},{"categoria":"supermercados_tiendas","cantidad":29},{"categoria":"bancos","cantidad":13},{"categoria":"transporte","cantidad":12},{"categoria":"salud_bienestar","cantidad":7}]}'::jsonb,
+          updated_at = NOW()
+          WHERE pantalla_id = 'prod_01HKT2ZF3NZHG7H5S6H3RB3V5D';
+UPDATE public.pantallas_analisis SET 
+          perfil_primario = 'daily_life',
+          perfil_secundario = 'gen_z_lifestyle',
+          score_intensidad = 35.3,
+          scores_full_json = '{"business_executive":17.515398845926676,"daily_life":30.957555541930837,"health_wellness":14.383388675740363,"gen_z_lifestyle":28.072940370691242,"high_end_luxury":18.105875519468427,"travel_transit":3}'::jsonb,
+          resumen_entorno = '{"anclas":["Pumacahua"],"categorias_principales":[{"categoria":"supermercados_tiendas","cantidad":12},{"categoria":"gastronomia","cantidad":8},{"categoria":"educacion","cantidad":8},{"categoria":"salud_bienestar","cantidad":7},{"categoria":"cultura_entretenimiento","cantidad":1}]}'::jsonb,
+          updated_at = NOW()
+          WHERE pantalla_id = 'prod_01HKT2ZF2SDX11FBW8F21NPBDC';
+UPDATE public.pantallas_analisis SET 
+          perfil_primario = 'daily_life',
+          perfil_secundario = 'business_executive',
+          score_intensidad = 100,
+          scores_full_json = '{"business_executive":63.853449214424195,"daily_life":78.09168698267001,"health_wellness":23.940724313239443,"gen_z_lifestyle":54.18096097241437,"high_end_luxury":57.63525545195521,"travel_transit":19.81978490321066}'::jsonb,
+          resumen_entorno = '{"anclas":["Estación Tomas Valle","Movil Bus Terminal Lima Norte"],"categorias_principales":[{"categoria":"gastronomia","cantidad":53},{"categoria":"supermercados_tiendas","cantidad":36},{"categoria":"bancos","cantidad":15},{"categoria":"salud_bienestar","cantidad":13},{"categoria":"transporte","cantidad":11}]}'::jsonb,
+          updated_at = NOW()
+          WHERE pantalla_id = 'prod_01HKT2ZES1FJJ81RAJZ6N3BGEG';
+UPDATE public.pantallas_analisis SET 
+          perfil_primario = 'daily_life',

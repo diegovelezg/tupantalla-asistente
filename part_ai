@@ -1,0 +1,50 @@
+UPDATE public.pantallas_analisis SET 
+          perfil_primario = 'gen_z_lifestyle',
+          perfil_secundario = 'business_executive',
+          score_intensidad = 5,
+          scores_full_json = '{"business_executive":4.3952340773752825,"daily_life":2.9301560515835217,"health_wellness":0,"gen_z_lifestyle":7.325390128958804,"high_end_luxury":0,"travel_transit":0}'::jsonb,
+          resumen_entorno = '{"anclas":[],"categorias_principales":[{"categoria":"educacion","cantidad":6}]}'::jsonb,
+          updated_at = NOW()
+          WHERE pantalla_id = 'prod_01HKT2ZFTN064MQ9RT0ZJK18DG';
+UPDATE public.pantallas_analisis SET 
+          perfil_primario = 'business_executive',
+          perfil_secundario = 'daily_life',
+          score_intensidad = 45.5,
+          scores_full_json = '{"business_executive":33.83014125594502,"daily_life":32.307810851996834,"health_wellness":3.1067161936803713,"gen_z_lifestyle":24.005188526704316,"high_end_luxury":28.226200258053534,"travel_transit":11.962323326063888}'::jsonb,
+          resumen_entorno = '{"anclas":["El Óvalo","Óvalo Santa Anita","Evitamiento"],"categorias_principales":[{"categoria":"gastronomia","cantidad":21},{"categoria":"supermercados_tiendas","cantidad":10},{"categoria":"transporte","cantidad":8},{"categoria":"bancos","cantidad":7},{"categoria":"servicios_empresariales","cantidad":2}]}'::jsonb,
+          updated_at = NOW()
+          WHERE pantalla_id = 'prod_01HKT2ZEZZ5AX3AAQF6SRATD98';
+UPDATE public.pantallas_analisis SET 
+          perfil_primario = 'daily_life',
+          perfil_secundario = 'gen_z_lifestyle',
+          score_intensidad = 34.2,
+          scores_full_json = '{"business_executive":22.196321267210266,"daily_life":32.81373111452263,"health_wellness":14.249335474006134,"gen_z_lifestyle":25.53841258611362,"high_end_luxury":14.282301284425722,"travel_transit":0}'::jsonb,
+          resumen_entorno = '{"anclas":[],"categorias_principales":[{"categoria":"educacion","cantidad":9},{"categoria":"salud_bienestar","cantidad":7},{"categoria":"gastronomia","cantidad":7},{"categoria":"servicios_personales","cantidad":7},{"categoria":"supermercados_tiendas","cantidad":4}]}'::jsonb,
+          updated_at = NOW()
+          WHERE pantalla_id = 'prod_01HKT2ZEKT3551PNM94GHSMD4A';
+UPDATE public.pantallas_analisis SET 
+          perfil_primario = 'travel_transit',
+          perfil_secundario = 'business_executive',
+          score_intensidad = 11.2,
+          scores_full_json = '{"business_executive":9.885886771596756,"daily_life":9.072622869394872,"health_wellness":3,"gen_z_lifestyle":9.066319511009418,"high_end_luxury":5,"travel_transit":9.89219012998221}'::jsonb,
+          resumen_entorno = '{"anclas":["Caja de Agua","Estaciom Caja de Aguas"],"categorias_principales":[{"categoria":"educacion","cantidad":5},{"categoria":"transporte","cantidad":4},{"categoria":"cultura_entretenimiento","cantidad":1},{"categoria":"salud_bienestar","cantidad":1},{"categoria":"turismo_hospedaje","cantidad":1}]}'::jsonb,
+          updated_at = NOW()
+          WHERE pantalla_id = 'prod_01HKT2ZEGYP9WH7PXZ3JND85YV';
+UPDATE public.pantallas_analisis SET 
+          perfil_primario = 'business_executive',
+          perfil_secundario = 'daily_life',
+          score_intensidad = 15.3,
+          scores_full_json = '{"business_executive":20.9864895290446,"daily_life":15.141449098593583,"health_wellness":5.3050079827863925,"gen_z_lifestyle":9.852157682317587,"high_end_luxury":11.602404692780462,"travel_transit":9.844546409525265}'::jsonb,
+          resumen_entorno = '{"anclas":["Enlaces","La Cultura"],"categorias_principales":[{"categoria":"servicios_empresariales","cantidad":4},{"categoria":"transporte","cantidad":2},{"categoria":"gastronomia","cantidad":2},{"categoria":"salud_bienestar","cantidad":2},{"categoria":"supermercados_tiendas","cantidad":2}]}'::jsonb,
+          updated_at = NOW()
+          WHERE pantalla_id = 'prod_01HKT2ZEXBFHH07WQG2BECXHQ9';
+UPDATE public.pantallas_analisis SET 
+          perfil_primario = 'gen_z_lifestyle',
+          perfil_secundario = 'daily_life',
+          score_intensidad = 5.3,
+          scores_full_json = '{"business_executive":5.657631350652843,"daily_life":7.980331744462957,"health_wellness":0.5,"gen_z_lifestyle":9.606529962095003,"high_end_luxury":4.531433133020796,"travel_transit":0}'::jsonb,
+          resumen_entorno = '{"anclas":[],"categorias_principales":[{"categoria":"educacion","cantidad":3},{"categoria":"supermercados_tiendas","cantidad":2},{"categoria":"gastronomia","cantidad":1}]}'::jsonb,
+          updated_at = NOW()
+          WHERE pantalla_id = 'prod_01HKT2ZF1QCV59AYENQHYA38AJ';
+UPDATE public.pantallas_analisis SET 
+          perfil_primario = 'daily_life',

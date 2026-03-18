@@ -1,0 +1,50 @@
+          updated_at = NOW()
+          WHERE pantalla_id = 'prod_01JN6E20WKTXYGKHYH8QF9ZZZH';
+UPDATE public.pantallas_analisis SET 
+          perfil_primario = 'business_executive',
+          perfil_secundario = 'daily_life',
+          score_intensidad = 42.8,
+          scores_full_json = '{"business_executive":36.637341988982506,"daily_life":32.23648356173672,"health_wellness":9.53768555229868,"gen_z_lifestyle":26.046533350745285,"high_end_luxury":30.27136882365416,"travel_transit":12.822346181565731}'::jsonb,
+          resumen_entorno = '{"anclas":["La Cultura"],"categorias_principales":[{"categoria":"gastronomia","cantidad":10},{"categoria":"supermercados_tiendas","cantidad":10},{"categoria":"servicios_empresariales","cantidad":6},{"categoria":"bancos","cantidad":6},{"categoria":"transporte","cantidad":4}]}'::jsonb,
+          updated_at = NOW()
+          WHERE pantalla_id = 'prod_01JN6E213KTXYGKHYH8QF9ZZYJ';
+UPDATE public.pantallas_analisis SET 
+          perfil_primario = 'business_executive',
+          perfil_secundario = 'daily_life',
+          score_intensidad = 42.8,
+          scores_full_json = '{"business_executive":36.637341988982506,"daily_life":32.23648356173672,"health_wellness":9.53768555229868,"gen_z_lifestyle":26.046533350745285,"high_end_luxury":30.27136882365416,"travel_transit":12.822346181565731}'::jsonb,
+          resumen_entorno = '{"anclas":["La Cultura"],"categorias_principales":[{"categoria":"gastronomia","cantidad":10},{"categoria":"supermercados_tiendas","cantidad":10},{"categoria":"servicios_empresariales","cantidad":6},{"categoria":"bancos","cantidad":6},{"categoria":"transporte","cantidad":4}]}'::jsonb,
+          updated_at = NOW()
+          WHERE pantalla_id = 'prod_01JN6E217KTXYGKHYH8QF9ZZZ3';
+UPDATE public.pantallas_analisis SET 
+          perfil_primario = 'business_executive',
+          perfil_secundario = 'daily_life',
+          score_intensidad = 42.8,
+          scores_full_json = '{"business_executive":36.637341988982506,"daily_life":32.23648356173672,"health_wellness":9.53768555229868,"gen_z_lifestyle":26.046533350745285,"high_end_luxury":30.27136882365416,"travel_transit":12.822346181565731}'::jsonb,
+          resumen_entorno = '{"anclas":["La Cultura"],"categorias_principales":[{"categoria":"gastronomia","cantidad":10},{"categoria":"supermercados_tiendas","cantidad":10},{"categoria":"servicios_empresariales","cantidad":6},{"categoria":"bancos","cantidad":6},{"categoria":"transporte","cantidad":4}]}'::jsonb,
+          updated_at = NOW()
+          WHERE pantalla_id = 'prod_01JN6E20VKTXYGKHYH8QF9ZZRN';
+UPDATE public.pantallas_analisis SET 
+          perfil_primario = 'business_executive',
+          perfil_secundario = 'daily_life',
+          score_intensidad = 42.8,
+          scores_full_json = '{"business_executive":36.637341988982506,"daily_life":32.23648356173672,"health_wellness":9.53768555229868,"gen_z_lifestyle":26.046533350745285,"high_end_luxury":30.27136882365416,"travel_transit":12.822346181565731}'::jsonb,
+          resumen_entorno = '{"anclas":["La Cultura"],"categorias_principales":[{"categoria":"gastronomia","cantidad":10},{"categoria":"supermercados_tiendas","cantidad":10},{"categoria":"servicios_empresariales","cantidad":6},{"categoria":"bancos","cantidad":6},{"categoria":"transporte","cantidad":4}]}'::jsonb,
+          updated_at = NOW()
+          WHERE pantalla_id = 'prod_01JN6E21CKTXYGKHYH8QF9ZZXP';
+UPDATE public.pantallas_analisis SET 
+          perfil_primario = 'business_executive',
+          perfil_secundario = 'daily_life',
+          score_intensidad = 42.8,
+          scores_full_json = '{"business_executive":36.637341988982506,"daily_life":32.23648356173672,"health_wellness":9.53768555229868,"gen_z_lifestyle":26.046533350745285,"high_end_luxury":30.27136882365416,"travel_transit":12.822346181565731}'::jsonb,
+          resumen_entorno = '{"anclas":["La Cultura"],"categorias_principales":[{"categoria":"gastronomia","cantidad":10},{"categoria":"supermercados_tiendas","cantidad":10},{"categoria":"servicios_empresariales","cantidad":6},{"categoria":"bancos","cantidad":6},{"categoria":"transporte","cantidad":4}]}'::jsonb,
+          updated_at = NOW()
+          WHERE pantalla_id = 'prod_01JN6E21FKTXYGKHYH8QF9ZZRK';
+UPDATE public.pantallas_analisis SET 
+          perfil_primario = 'business_executive',
+          perfil_secundario = 'daily_life',
+          score_intensidad = 42.8,
+          scores_full_json = '{"business_executive":36.637341988982506,"daily_life":32.23648356173672,"health_wellness":9.53768555229868,"gen_z_lifestyle":26.046533350745285,"high_end_luxury":30.27136882365416,"travel_transit":12.822346181565731}'::jsonb,
+          resumen_entorno = '{"anclas":["La Cultura"],"categorias_principales":[{"categoria":"gastronomia","cantidad":10},{"categoria":"supermercados_tiendas","cantidad":10},{"categoria":"servicios_empresariales","cantidad":6},{"categoria":"bancos","cantidad":6},{"categoria":"transporte","cantidad":4}]}'::jsonb,
+          updated_at = NOW()
+          WHERE pantalla_id = 'prod_01JN6E21GKTXYGKHYH8QF9ZZMC';
