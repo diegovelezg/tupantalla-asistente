@@ -387,10 +387,26 @@ async function main() {
     const perfilSecundario = sortedPerfiles[1]?.[0] || 'unknown';
 
     const anclas = venues.filter(v => v.es_ancla).map(v => v.nombre);
+    
+    // Obtener los nombres de los comercios más importantes por categoría (top 3 de cada una)
+    const comerciosPorCategoria: Record<string, string[]> = {};
+    venues.forEach(v => {
+      if (v.nombre && !v.nombre.toLowerCase().includes('sin nombre')) {
+        if (!comerciosPorCategoria[v.categoria]) comerciosPorCategoria[v.categoria] = [];
+        if (!comerciosPorCategoria[v.categoria].includes(v.nombre)) {
+          comerciosPorCategoria[v.categoria].push(v.nombre);
+        }
+      }
+    });
+
     const categoriasPrincipales = Object.entries(distribucionCategorias)
       .sort(([, a], [, b]) => b - a)
       .slice(0, 5)
-      .map(([categoria, cantidad]) => ({ categoria, cantidad }));
+      .map(([categoria, cantidad]) => ({ 
+        categoria, 
+        cantidad,
+        ejemplos: (comerciosPorCategoria[categoria] || []).slice(0, 3)
+      }));
 
     const result = {
       perfil_primario: perfilPrimario,
@@ -398,7 +414,7 @@ async function main() {
       score_intensidad: intensidad,
       scores_full_json: scores,
       resumen_entorno: {
-        anclas,
+        anclas: Array.from(new Set(anclas)).slice(0, 8),
         categorias_principales: categoriasPrincipales
       }
     };

@@ -1,3 +1,0 @@
--- SQL para actualizar embeddings semánticos (primeras 5 pantallas)
-UPDATE public.pantallas_analisis SET embedding_comercial = '[-0.015243177, -0.04212345, ... (768 valores) ]' WHERE pantalla_id = 'prod_01HKT2ZEPZ5RECE13JXZ4BV9CJ';
--- ...

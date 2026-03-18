@@ -2,68 +2,95 @@ import { createClient } from '@supabase/supabase-js';
 import { GoogleGenAI } from '@google/genai';
 import * as dotenv from 'dotenv';
 
-// Cargar variables de entorno
 dotenv.config({ path: '.env.local' });
 
-// Configuración Supabase
-const supabaseUrl = process.env.SUPABASE_URL || 'https://unlboiebaoniophxoyeo.supabase.co';
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
-const supabase = createClient(supabaseUrl, supabaseKey);
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_SERVICE_KEY;
 
-// Configuración Gemini (@google/genai)
-const ai = new GoogleGenAI({
-    apiKey: process.env.GEMINI_API_KEY
-});
+if (!supabaseUrl || !supabaseKey) {
+    console.error('❌ Error: Variables de entorno Supabase no configuradas.');
+    process.exit(1);
+}
+
+const supabase = createClient(supabaseUrl, supabaseKey);
+const genAI = new GoogleGenAI(process.env.GEMINI_API_KEY || '');
+
+// CONFIGURACIÓN: true = solo procesa vacíos, false = procesa todo
+const ONLY_PROCESS_EMPTY = true; 
 
 async function generateEmbeddings() {
-    console.log('--- Iniciando Generación de Embeddings (gemini-embedding-001) ---');
+    console.log(`--- Iniciando Generación Secuencial de Embeddings (1 a 1) ---`);
+    console.log(`Modo: ${ONLY_PROCESS_EMPTY ? 'SOLO FILAS VACÍAS' : 'REPROCESAR TODO'}`);
 
+    // 1. Obtener todas las narrativas desde el RPC
     const { data: pantallas, error } = await supabase.rpc('get_narrativas_comerciales');
     if (error) {
-        console.error('Error al obtener narrativas:', error);
+        console.error('❌ Error RPC:', error.message);
         return;
     }
 
-    console.log(`Procesando ${pantallas.length} pantallas...`);
+    // 2. Filtrar por ID si ya tienen narrativa guardada (si el flag está activo)
+    let aProcesar = pantallas;
+    if (ONLY_PROCESS_EMPTY) {
+        // Obtenemos los IDs que tienen análisis completo pero no tienen narrativa comercial aún
+        const { data: candidatos } = await supabase
+            .from('pantallas_analisis')
+            .select('pantalla_id')
+            .not('scores_full_json', 'is', null)
+            .is('narrativa_comercial', null);
+        
+        const idsAceptados = new Set(candidatos?.map(p => p.pantalla_id) || []);
+        aProcesar = pantallas.filter(p => idsAceptados.has(p.pantalla_id));
+    }
 
-    for (const pantalla of pantallas) {
+    if (aProcesar.length === 0) {
+        console.log('✅ No hay pantallas pendientes de procesar.');
+        return;
+    }
+
+    console.log(`📺 Total a procesar: ${aProcesar.length} pantallas individualmente.`);
+
+    // 3. Procesamiento estrictamente lineal
+    for (const pantalla of aProcesar) {
+        console.log(`\n✨ Procesando ID: ${pantalla.pantalla_id} | "${pantalla.product_title}"...`);
+
         try {
-            console.log(`Generando embedding para: ${pantalla.product_title}...`);
-            
-            // 1. Llamada exacta al modelo solicitado
-            const response = await ai.models.embedContent({
+            // Generar embedding
+            const response = await genAI.models.embedContent({
                 model: 'gemini-embedding-001',
-                contents: pantalla.narrativa,
+                contents: [pantalla.narrativa],
             });
 
-            // 2. TRUNCADO MANUAL A 768 (Garantiza compatibilidad con Supabase)
-            // Si el API devuelve 3072, tomamos los primeros 768 (Matryoshka)
-            const fullVector = response.embeddings[0].values;
-            const embedding = fullVector.slice(0, 768);
+            const embedding = response.embeddings[0].values.slice(0, 768);
 
-            if (embedding.length !== 768) {
-                console.error(`Error de dimensiones: Obtenidos ${embedding.length} para ${pantalla.product_title}`);
-                continue;
-            }
+            // Preparar payload para esta pantalla específica
+            const payload = {
+                pantalla_id: pantalla.pantalla_id,
+                embedding_comercial: embedding,
+                narrativa_comercial: pantalla.narrativa,
+                updated_at: new Date().toISOString()
+            };
 
-            // 3. Actualización en DB
-            const { error: updateError } = await supabase
+            // Actualizar fila individual
+            const { error: upsertError } = await supabase
                 .from('pantallas_analisis')
-                .update({ embedding_comercial: embedding })
-                .eq('pantalla_id', pantalla.pantalla_id);
+                .upsert(payload, { onConflict: 'pantalla_id' });
 
-            if (updateError) {
-                console.error(`Error Supabase [${pantalla.product_title}]:`, updateError.message);
+            if (upsertError) {
+                console.error(`  ❌ Error Supabase en ID ${pantalla.pantalla_id}:`, upsertError.message);
             } else {
-                console.log(`✓ ${pantalla.product_title} actualizado correctamente.`);
+                console.log(`  ✅ OK: Fila actualizada correctamente.`);
             }
 
         } catch (e: any) {
-            console.error(`Fallo crítico en ${pantalla.product_title}:`, e.message);
+            console.error(`  ❌ Fallo en ID ${pantalla.pantalla_id}:`, e.message);
         }
+
+        // Delay de seguridad entre llamadas
+        await new Promise(r => setTimeout(r, 500));
     }
 
-    console.log('--- Proceso Finalizado con Éxito ---');
+    console.log('\n--- Proceso Finalizado ---');
 }
 
 generateEmbeddings();
