@@ -10,7 +10,11 @@ El asistente ha evolucionado de una búsqueda basada en palabras clave exactas a
 En lugar de buscar etiquetas sueltas, el sistema genera una "historia" para cada pantalla antes de convertirla en un vector matemático. Esta narrativa amalgama:
 *   **Identidad y Ubicación**: Contexto geográfico exacto.
 *   **Perfil Psicológico**: El *mindset* de la audiencia (ej: "¿están de compras?" o "¿están trabajando?").
-*   **Valor de Negocio**: Clientes ideales y argumentos de venta maestros.
+*   **Valor de Negocio (Generación de Afinidad)**: 
+    *   Tras identificar los perfiles primarios y secundarios de la pantalla (vía scoring de venues), el sistema consulta una **Matriz de Clientes Ideales**.
+    *   Esta matriz traduce categorías técnicas (ej: `amenity=bank`) en **negocios afines del mundo real** (ej: "Estudios de abogados, Coworkings, Fintechs").
+    *   Esta lista de "negocios afines" se inyecta en la narrativa, permitiendo que una búsqueda de "oficinas contables" haga match semántico con una pantalla de perfil "Business" aunque no haya una oficina contable exacta detectada en el mapa.
+*   **Argumentos Maestros**: Justificaciones de venta pre-configuradas para cada perfil.
 *   **Entorno Vivo**: Puntos de interés (anclas) reales detectados vía Overpass API (OpenStreetMap).
 
 ---
